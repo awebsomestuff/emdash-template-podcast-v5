@@ -1,0 +1,18 @@
+---
+import { PortableText } from "emdash/ui";
+import type { PortableTextBlock } from "emdash";
+
+interface Props {
+	value?: PortableTextBlock[] | null;
+}
+
+const { value } = Astro.props;
+---
+{value && value.length > 0 && (
+	<details class="transcript">
+		<summary>Full transcript</summary>
+		<div class="transcript-body">
+			<PortableText value={value} />
+		</div>
+	</details>
+)}

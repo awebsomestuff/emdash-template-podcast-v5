@@ -1,0 +1,36 @@
+---
+import Base from "../../layouts/Base.astro";
+import { PortableText } from "emdash/ui";
+import { getEmDashEntry, getSeoMeta, getSiteSettings } from "emdash";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/");
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", slug);
+Astro.cache.set(cacheHint);
+if (!page) return Astro.redirect("/404");
+
+const data = page.data;
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+
+const seo = getSeoMeta(page, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: `/pages/${slug}`,
+});
+---
+<Base
+	title={seo.title}
+	description={seo.description}
+	content={{ collection: "pages", id: data.id, slug }}
+>
+	<article class="page-body">
+		<h1 {...page.edit.title}>{data.title}</h1>
+		{data.content && (
+			<div class="show-notes">
+				<PortableText value={data.content} />
+			</div>
+		)}
+	</article>
+</Base>

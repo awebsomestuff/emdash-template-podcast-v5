@@ -1,0 +1,77 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getEmDashCollection, getTaxonomyTerms } from "emdash";
+import EpisodeCard from "../../components/EpisodeCard.astro";
+
+const url = Astro.url;
+const cursor = url.searchParams.get("cursor") ?? undefined;
+const seasonFilter = url.searchParams.get("season") ?? undefined;
+const topicFilter = url.searchParams.get("topic") ?? undefined;
+
+const where: Record<string, string> = {};
+if (seasonFilter) where.season = seasonFilter;
+if (topicFilter) where.topic = topicFilter;
+
+const { entries: episodes, nextCursor, cacheHint } = await getEmDashCollection("episodes", {
+	status: "published",
+	limit: 12,
+	cursor,
+	orderBy: { published_at: "desc" },
+	where: Object.keys(where).length > 0 ? where : undefined,
+});
+Astro.cache.set(cacheHint);
+
+const seasons = await getTaxonomyTerms("season");
+const topics = await getTaxonomyTerms("topic");
+
+function buildHref(params: Record<string, string | undefined>) {
+	const p = new URLSearchParams();
+	for (const [k, v] of Object.entries(params)) if (v) p.set(k, v);
+	const s = p.toString();
+	return s ? `/episodes?${s}` : "/episodes";
+}
+---
+<Base title="Episodes" description="All episodes of Signal & Noise">
+	<section class="section">
+		<div class="container">
+			<div class="section-head">
+				<div>
+					<div class="section-sub">The archive</div>
+					<h1 class="section-title">All episodes</h1>
+				</div>
+			</div>
+
+			{seasons.length > 0 && (
+				<div class="filter-tabs">
+					<a class={`filter-tab${!seasonFilter ? " active" : ""}`} href={buildHref({ topic: topicFilter })}>All seasons</a>
+					{seasons.map((s) => (
+						<a class={`filter-tab${seasonFilter === s.slug ? " active" : ""}`} href={buildHref({ season: s.slug, topic: topicFilter })}>{s.label}</a>
+					))}
+				</div>
+			)}
+
+			{topics.length > 0 && (
+				<div class="filter-tabs">
+					<a class={`filter-tab${!topicFilter ? " active" : ""}`} href={buildHref({ season: seasonFilter })}>All topics</a>
+					{topics.map((t) => (
+						<a class={`filter-tab${topicFilter === t.slug ? " active" : ""}`} href={buildHref({ season: seasonFilter, topic: t.slug })}>{t.label}</a>
+					))}
+				</div>
+			)}
+
+			{episodes.length > 0 ? (
+				<div class="episode-grid">
+					{episodes.map((ep) => <EpisodeCard episode={ep} />)}
+				</div>
+			) : (
+				<div class="empty">No episodes found for this filter.</div>
+			)}
+
+			{nextCursor && (
+				<div class="pagination">
+					<a class="btn btn-ghost" href={buildHref({ cursor: nextCursor, season: seasonFilter, topic: topicFilter })}>Load more →</a>
+				</div>
+			)}
+		</div>
+	</section>
+</Base>

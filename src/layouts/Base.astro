@@ -1,0 +1,137 @@
+---
+import { getMenu, getSiteSettings } from "emdash";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import LiveSearch from "emdash/ui/search";
+import "../styles/theme.css";
+
+interface Props {
+	title: string;
+	description?: string | null;
+	image?: string | null;
+	content?: { collection: string; id: string; slug?: string | null };
+}
+
+const { title, description, image, content } = Astro.props;
+const menu = await getMenu("primary");
+const footerMenu = await getMenu("footer");
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+const tagline = settings?.tagline || "Conversations at the intersection of tech, design and culture";
+
+const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: content ? "content" : "custom",
+	pageType: content ? "article" : "website",
+	title: fullTitle,
+	description,
+	image,
+	content,
+});
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{fullTitle}</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="alternate" type="application/rss+xml" title={`${siteTitle} Podcast`} href="/rss.xml" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<script is:inline>
+			(function () {
+				var c = document.cookie;
+				var i = c.indexOf("theme=");
+				var theme = i >= 0 ? c.slice(i + 6).split(";")[0] : null;
+				if (theme === "light") {
+					document.documentElement.classList.add("light");
+				} else if (theme !== "dark" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+					document.documentElement.classList.add("light");
+				}
+			})();
+		</script>
+		<EmDashHead page={pageCtx} />
+	</head>
+	<body>
+		<EmDashBodyStart page={pageCtx} />
+
+		<header class="site-header">
+			<div class="site-header-inner">
+				<a href="/" class="site-logo">{siteTitle}</a>
+
+				<button class="nav-toggle" aria-label="Toggle navigation" id="nav-toggle">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+
+				<nav class="site-nav" id="site-nav">
+					{menu?.items.map((item) => (
+						<a href={item.url}>{item.label}</a>
+					))}
+					<LiveSearch
+						placeholder="Search episodes…"
+						collections={["episodes", "hosts", "pages"]}
+						inputClass="site-search-input"
+						expandOnFocus={{ collapsed: "180px", expanded: "280px" }}
+					/>
+					<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+						<svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+						<svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+					</button>
+				</nav>
+			</div>
+		</header>
+
+		<main class="site-main">
+			<slot />
+		</main>
+
+		<footer class="site-footer">
+			<div class="site-footer-inner">
+				<div class="site-footer-brand">
+					<a href="/" class="site-logo">{siteTitle}</a>
+					<p>{tagline}</p>
+				</div>
+				<div>
+					<h4>Listen</h4>
+					<a href="#">Spotify</a>
+					<a href="#">Apple Podcasts</a>
+					<a href="#">YouTube</a>
+					<a href="/rss.xml">RSS Feed</a>
+				</div>
+				<div>
+					<h4>Navigate</h4>
+					{footerMenu?.items.map((item) => (
+						<a href={item.url}>{item.label}</a>
+					))}
+				</div>
+			</div>
+			<div class="site-footer-bottom">
+				<span>&copy; {new Date().getFullYear()} {siteTitle}. All rights reserved.</span>
+				<span>Made with EmDash CMS</span>
+			</div>
+		</footer>
+
+		<script is:inline>
+			document.getElementById('theme-toggle')?.addEventListener('click', function () {
+				var isLight = document.documentElement.classList.toggle('light');
+				document.cookie = 'theme=' + (isLight ? 'light' : 'dark') + ';path=/;max-age=31536000;SameSite=Lax';
+			});
+			document.getElementById('nav-toggle')?.addEventListener('click', function () {
+				document.getElementById('site-nav')?.classList.toggle('open');
+			});
+			document.addEventListener('keydown', function (e) {
+				if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+					e.preventDefault();
+					document.querySelector('.site-search-input')?.focus();
+				}
+			});
+		</script>
+
+		<EmDashBodyEnd page={pageCtx} />
+	</body>
+</html>

@@ -1,0 +1,74 @@
+---
+import Base from "../../layouts/Base.astro";
+import { Image } from "emdash/ui";
+import { getEmDashEntry, getEntriesByTerm, getSeoMeta, getSiteSettings } from "emdash";
+import EpisodeCard from "../../components/EpisodeCard.astro";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/");
+
+// Try hosts first, then guests
+let { entry: host, cacheHint } = await getEmDashEntry("hosts", slug);
+let collection = "hosts";
+if (!host) {
+	const res = await getEmDashEntry("guests", slug);
+	host = res.entry;
+	cacheHint = res.cacheHint;
+	collection = "guests";
+}
+Astro.cache.set(cacheHint);
+if (!host) return Astro.redirect("/404");
+
+const data = host.data;
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+
+const seo = getSeoMeta(host, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: `/hosts/${slug}`,
+	defaultOgImage: data.photo?.src,
+});
+
+// Episodes featuring this host/guest via taxonomy
+const taxonomyName = collection === "hosts" ? "host" : "guest";
+const appearances = await getEntriesByTerm("episodes", taxonomyName, slug);
+---
+<Base
+	title={data.name}
+	description={data.bio}
+	image={seo.ogImage}
+	content={{ collection, id: data.id, slug }}
+>
+	<section class="container host-detail">
+		<div class="host-detail-head">
+			<div class="host-detail-photo">
+				{data.photo && <Image image={data.photo} />}
+			</div>
+			<div>
+				{data.role && <div class="host-detail-role">{data.role}</div>}
+				<h1 class="host-detail-name">{data.name}</h1>
+				{data.bio && <p class="host-detail-bio">{data.bio}</p>}
+				<div class="host-detail-socials">
+					{data.twitter_url && <a href={data.twitter_url} target="_blank" rel="noopener">Twitter</a>}
+					{data.linkedin_url && <a href={data.linkedin_url} target="_blank" rel="noopener">LinkedIn</a>}
+					{data.website_url && <a href={data.website_url} target="_blank" rel="noopener">Website</a>}
+				</div>
+			</div>
+		</div>
+
+		<div class="section-head">
+			<div>
+				<div class="section-sub">Appearances</div>
+				<h2 class="section-title">Episodes featuring {data.name.split(" ")[0]}</h2>
+			</div>
+		</div>
+		{appearances.length > 0 ? (
+			<div class="episode-grid">
+				{appearances.map((ep: any) => <EpisodeCard episode={ep} />)}
+			</div>
+		) : (
+			<div class="empty">No episodes yet.</div>
+		)}
+	</section>
+</Base>

@@ -1,0 +1,112 @@
+---
+import Base from "../layouts/Base.astro";
+import { getEmDashCollection, getSiteSettings } from "emdash";
+import FeaturedEpisode from "../components/FeaturedEpisode.astro";
+import EpisodeCard from "../components/EpisodeCard.astro";
+import HostCard from "../components/HostCard.astro";
+import Waveform from "../components/Waveform.astro";
+import PlatformLinks from "../components/PlatformLinks.astro";
+
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+const tagline = settings?.tagline || "Conversations at the intersection of tech, design and culture";
+
+const { entries: episodes, cacheHint: c1 } = await getEmDashCollection("episodes", {
+	status: "published",
+	limit: 10,
+	orderBy: { published_at: "desc" },
+});
+Astro.cache.set(c1);
+
+const { entries: hosts, cacheHint: c2 } = await getEmDashCollection("hosts", {
+	status: "published",
+	limit: 4,
+});
+Astro.cache.set(c2);
+
+const [featured, ...rest] = episodes;
+const recent = rest.slice(0, 6);
+---
+<Base title={siteTitle} description={tagline}>
+	<section class="hero">
+		<div class="hero-inner">
+			<div class="hero-kicker">A Podcast by Signal & Noise</div>
+			<h1 class="hero-title">{siteTitle}.</h1>
+			<p class="hero-tagline">{tagline}</p>
+			<div class="hero-waveform">
+				<Waveform bars={80} seed={19} />
+			</div>
+			<PlatformLinks
+				spotify="https://open.spotify.com"
+				apple="https://podcasts.apple.com"
+				youtube="https://youtube.com"
+				size="lg"
+			/>
+		</div>
+	</section>
+
+	{featured && (
+		<section class="section">
+			<div class="container">
+				<div class="section-head">
+					<div>
+						<div class="section-sub">▶ Now playing</div>
+						<h2 class="section-title">Latest episode</h2>
+					</div>
+				</div>
+				<FeaturedEpisode episode={featured} />
+			</div>
+		</section>
+	)}
+
+	{recent.length > 0 && (
+		<section class="section">
+			<div class="container">
+				<div class="section-head">
+					<div>
+						<div class="section-sub">All episodes</div>
+						<h2 class="section-title">Recent drops</h2>
+					</div>
+					<a href="/episodes" class="btn btn-ghost">Browse all →</a>
+				</div>
+				<div class="episode-grid">
+					{recent.map((ep) => <EpisodeCard episode={ep} />)}
+				</div>
+			</div>
+		</section>
+	)}
+
+	{hosts.length > 0 && (
+		<section class="section">
+			<div class="container">
+				<div class="section-head">
+					<div>
+						<div class="section-sub">Behind the mics</div>
+						<h2 class="section-title">Your hosts</h2>
+					</div>
+				</div>
+				<div class="hosts-grid">
+					{hosts.map((h) => <HostCard host={h} />)}
+				</div>
+			</div>
+		</section>
+	)}
+
+	<section class="section" id="subscribe">
+		<div class="container">
+			<div class="subscribe-block">
+				<div class="subscribe-block-inner">
+					<div class="section-sub" style="justify-content:center">Never miss an episode</div>
+					<h2>Subscribe wherever you listen.</h2>
+					<p>New conversations every week with founders, engineers, designers and cultural critics shaping the future.</p>
+					<PlatformLinks
+						spotify="https://open.spotify.com"
+						apple="https://podcasts.apple.com"
+						youtube="https://youtube.com"
+						size="lg"
+					/>
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>

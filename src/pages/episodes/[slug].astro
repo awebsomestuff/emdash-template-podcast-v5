@@ -1,0 +1,141 @@
+---
+import Base from "../../layouts/Base.astro";
+import { Image } from "emdash/ui";
+import {
+	getEmDashEntry,
+	getEmDashCollection,
+	getEntryTerms,
+	getSeoMeta,
+	getSiteSettings,
+} from "emdash";
+import AudioPlayer from "../../components/AudioPlayer.astro";
+import PlatformLinks from "../../components/PlatformLinks.astro";
+import ShowNotes from "../../components/ShowNotes.astro";
+import Transcript from "../../components/Transcript.astro";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/episodes");
+
+const { entry: episode, cacheHint } = await getEmDashEntry("episodes", slug);
+Astro.cache.set(cacheHint);
+
+if (!episode) return Astro.redirect("/404");
+
+const data = episode.data;
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+
+const seo = getSeoMeta(episode, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: `/episodes/${slug}`,
+	defaultOgImage: data.cover_image?.src,
+});
+
+// Season / topic terms for display
+const seasonTerms = await getEntryTerms("episodes", data.id, "season");
+const topicTerms = await getEntryTerms("episodes", data.id, "topic");
+const seasonLabel = seasonTerms[0]?.label ?? null;
+
+// Guest terms → fetch each guest entry
+const guestTerms = await getEntryTerms("episodes", data.id, "guest");
+const guests = (
+	await Promise.all(
+		guestTerms.map(async (t) => {
+			const { entry } = await getEmDashEntry("guests", t.slug);
+			return entry;
+		}),
+	)
+).filter(Boolean);
+
+// Prev/next (cheap: fetch all episodes)
+const { entries: all } = await getEmDashCollection("episodes", {
+	status: "published",
+	limit: 100,
+	orderBy: { published_at: "desc" },
+});
+const idx = all.findIndex((e) => e.id === episode.id);
+const prev = idx > 0 ? all[idx - 1] : null;
+const next = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;
+---
+<Base
+	title={seo.title}
+	description={seo.description}
+	image={seo.ogImage}
+	content={{ collection: "episodes", id: data.id, slug }}
+>
+	<article class="container episode-detail">
+		<div class="episode-detail-head">
+			<div class="episode-detail-cover" {...episode.edit.cover_image}>
+				{data.cover_image && <Image image={data.cover_image} />}
+			</div>
+			<div>
+				<div class="episode-detail-meta">
+					{seasonLabel && <strong>{seasonLabel}</strong>}
+					{data.episode_number && <span>EP {String(data.episode_number).padStart(2, "0")}</span>}
+					{data.duration && <span>{data.duration}</span>}
+					{data.publishedAt && <span>{new Date(data.publishedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>}
+				</div>
+				<h1 class="episode-detail-title" {...episode.edit.title}>{data.title}</h1>
+				{data.description && <p class="episode-detail-desc">{data.description}</p>}
+				{data.audio_url && (
+					<div style="margin-bottom: var(--space-5)">
+						<AudioPlayer src={data.audio_url} duration={data.duration} seed={data.episode_number || 5} />
+					</div>
+				)}
+				<PlatformLinks
+					spotify={data.spotify_url}
+					apple={data.apple_url}
+					youtube={data.youtube_url}
+				/>
+			</div>
+		</div>
+
+		{data.show_notes && (
+			<section style="margin-top: var(--space-10)">
+				<div class="section-sub">Show notes</div>
+				<ShowNotes value={data.show_notes} />
+			</section>
+		)}
+
+		{guests.length > 0 && (
+			<section style="margin-top: var(--space-10)">
+				<div class="section-sub">Guests</div>
+				<div class="episode-guests">
+					{guests.map((g: any) => (
+						<a href={`/hosts/${g.id}`} class="episode-guest">
+							{g.data.photo && (
+								<div class="episode-guest-photo">
+									<Image image={g.data.photo} />
+								</div>
+							)}
+							<div>
+								<div class="episode-guest-name">{g.data.name}</div>
+								{g.data.bio && <div class="episode-guest-bio">{g.data.bio}</div>}
+							</div>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		{data.transcript && <Transcript value={data.transcript} />}
+
+		{(prev || next) && (
+			<nav class="prev-next">
+				{prev ? (
+					<a href={`/episodes/${prev.id}`}>
+						<span>← Previous</span>
+						<strong>{prev.data.title}</strong>
+					</a>
+				) : <span />}
+				{next && (
+					<a href={`/episodes/${next.id}`} class="next">
+						<span>Next →</span>
+						<strong>{next.data.title}</strong>
+					</a>
+				)}
+			</nav>
+		)}
+	</article>
+</Base>

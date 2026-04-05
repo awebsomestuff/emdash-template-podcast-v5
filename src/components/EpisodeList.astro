@@ -1,0 +1,16 @@
+---
+import EpisodeCard from "./EpisodeCard.astro";
+
+interface Props {
+	episodes: any[];
+}
+
+const { episodes } = Astro.props;
+---
+{episodes.length > 0 ? (
+	<div class="episode-grid">
+		{episodes.map((ep) => <EpisodeCard episode={ep} />)}
+	</div>
+) : (
+	<div class="empty">No episodes yet. Check back soon.</div>
+)}

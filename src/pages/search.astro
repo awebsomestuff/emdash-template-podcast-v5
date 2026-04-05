@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import LiveSearch from "emdash/ui/search";
+---
+<Base title="Search" description="Search episodes, hosts and pages">
+	<section class="section">
+		<div class="container" style="max-width: 760px;">
+			<div class="section-sub">Find an episode</div>
+			<h1 class="section-title" style="margin-bottom: var(--space-6);">Search</h1>
+			<div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5);">
+				<LiveSearch
+					placeholder="Type to search episodes, hosts or pages…"
+					collections={["episodes", "hosts", "pages"]}
+					inputClass="site-search-input"
+				/>
+			</div>
+			<p style="color: var(--text-muted); margin-top: var(--space-5); font-size: var(--text-sm);">
+				Tip: press <kbd style="font-family:var(--font-mono); background: var(--surface); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border);">⌘K</kbd> from anywhere to focus search.
+			</p>
+		</div>
+	</section>
+</Base>

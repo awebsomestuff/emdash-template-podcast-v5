@@ -1,0 +1,40 @@
+---
+import { Image } from "emdash/ui";
+import AudioPlayer from "./AudioPlayer.astro";
+import PlatformLinks from "./PlatformLinks.astro";
+
+interface Props {
+	episode: any;
+}
+
+const { episode } = Astro.props;
+const data = episode.data;
+const slug = episode.id;
+---
+<div class="featured-episode">
+	<div class="featured-episode-cover">
+		{data.cover_image && <Image image={data.cover_image} />}
+	</div>
+	<div>
+		<div class="featured-episode-meta">
+			<span>Latest Episode</span>
+			{data.episode_number && <strong>EP {String(data.episode_number).padStart(2, "0")}</strong>}
+			{data.duration && <span>{data.duration}</span>}
+		</div>
+		<h2 class="featured-episode-title">{data.title}</h2>
+		{data.description && <p class="featured-episode-desc">{data.description}</p>}
+		{data.audio_url && (
+			<div style="margin-bottom: var(--space-5)">
+				<AudioPlayer src={data.audio_url} duration={data.duration} seed={data.episode_number || 3} />
+			</div>
+		)}
+		<div style="display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: center;">
+			<a href={`/episodes/${slug}`} class="btn btn-primary">Show notes →</a>
+			<PlatformLinks
+				spotify={data.spotify_url}
+				apple={data.apple_url}
+				youtube={data.youtube_url}
+			/>
+		</div>
+	</div>
+</div>

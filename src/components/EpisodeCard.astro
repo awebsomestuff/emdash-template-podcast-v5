@@ -1,0 +1,31 @@
+---
+import { Image } from "emdash/ui";
+
+interface Props {
+	episode: any;
+	season?: string | null;
+}
+
+const { episode, season } = Astro.props;
+const data = episode.data;
+const slug = episode.id;
+const epLabel = data.episode_number ? `EP ${String(data.episode_number).padStart(2, "0")}` : null;
+---
+<a href={`/episodes/${slug}`} class="episode-card">
+	<div class="episode-card-cover">
+		{data.cover_image && <Image image={data.cover_image} />}
+		{epLabel && <span class="episode-card-badge">{epLabel}</span>}
+	</div>
+	<div class="episode-card-body">
+		<div class="episode-card-meta">
+			{season && <span>{season}</span>}
+			{data.duration && <span>{data.duration}</span>}
+		</div>
+		<h3 class="episode-card-title">{data.title}</h3>
+		{data.description && <p class="episode-card-desc">{data.description}</p>}
+		<div class="episode-card-footer">
+			<span>{data.publishedAt ? new Date(data.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : ""}</span>
+			<span class="play">Listen →</span>
+		</div>
+	</div>
+</a>

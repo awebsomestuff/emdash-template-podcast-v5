@@ -1,0 +1,884 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Signal & Noise Podcast",
+		"description": "A professional podcast template for EmDash CMS",
+		"author": "EmDash"
+	},
+	"settings": {
+		"title": "Signal & Noise",
+		"tagline": "Conversations at the intersection of tech, design and culture"
+	},
+	"collections": [
+		{
+			"slug": "episodes",
+			"label": "Episodes",
+			"labelSingular": "Episode",
+			"supports": ["drafts", "revisions", "search", "seo"],
+			"commentsEnabled": true,
+			"fields": [
+				{ "slug": "title", "label": "Title", "type": "string", "required": true, "searchable": true },
+				{ "slug": "description", "label": "Description", "type": "text", "searchable": true },
+				{ "slug": "show_notes", "label": "Show notes", "type": "portableText", "searchable": true },
+				{ "slug": "transcript", "label": "Transcript", "type": "portableText" },
+				{ "slug": "cover_image", "label": "Cover art", "type": "image", "required": true },
+				{ "slug": "audio_url", "label": "Audio URL", "type": "string" },
+				{ "slug": "duration", "label": "Duration (mm:ss)", "type": "string" },
+				{ "slug": "duration_seconds", "label": "Duration (seconds)", "type": "integer" },
+				{ "slug": "episode_number", "label": "Episode number", "type": "integer" },
+				{ "slug": "spotify_url", "label": "Spotify URL", "type": "string" },
+				{ "slug": "apple_url", "label": "Apple Podcasts URL", "type": "string" },
+				{ "slug": "youtube_url", "label": "YouTube URL", "type": "string" }
+			]
+		},
+		{
+			"slug": "hosts",
+			"label": "Hosts",
+			"labelSingular": "Host",
+			"supports": ["search", "seo"],
+			"fields": [
+				{ "slug": "name", "label": "Name", "type": "string", "required": true, "searchable": true },
+				{ "slug": "role", "label": "Role", "type": "string" },
+				{ "slug": "bio", "label": "Bio", "type": "text", "searchable": true },
+				{ "slug": "photo", "label": "Photo", "type": "image", "required": true },
+				{ "slug": "twitter_url", "label": "Twitter URL", "type": "string" },
+				{ "slug": "linkedin_url", "label": "LinkedIn URL", "type": "string" },
+				{ "slug": "website_url", "label": "Website URL", "type": "string" }
+			]
+		},
+		{
+			"slug": "guests",
+			"label": "Guests",
+			"labelSingular": "Guest",
+			"supports": ["search", "seo"],
+			"fields": [
+				{ "slug": "name", "label": "Name", "type": "string", "required": true, "searchable": true },
+				{ "slug": "role", "label": "Role", "type": "string" },
+				{ "slug": "bio", "label": "Bio", "type": "text", "searchable": true },
+				{ "slug": "photo", "label": "Photo", "type": "image", "required": true },
+				{ "slug": "twitter_url", "label": "Twitter URL", "type": "string" },
+				{ "slug": "linkedin_url", "label": "LinkedIn URL", "type": "string" },
+				{ "slug": "website_url", "label": "Website URL", "type": "string" }
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"supports": ["drafts", "revisions", "search", "seo"],
+			"fields": [
+				{ "slug": "title", "label": "Title", "type": "string", "required": true, "searchable": true },
+				{ "slug": "content", "label": "Content", "type": "portableText", "searchable": true }
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "season",
+			"label": "Seasons",
+			"labelSingular": "Season",
+			"hierarchical": false,
+			"collections": ["episodes"],
+			"terms": [
+				{ "slug": "season-1", "label": "Season 1" },
+				{ "slug": "season-2", "label": "Season 2" }
+			]
+		},
+		{
+			"name": "topic",
+			"label": "Topics",
+			"labelSingular": "Topic",
+			"hierarchical": false,
+			"collections": ["episodes"],
+			"terms": [
+				{ "slug": "ai", "label": "AI" },
+				{ "slug": "startups", "label": "Startups" },
+				{ "slug": "design", "label": "Design" },
+				{ "slug": "engineering", "label": "Engineering" },
+				{ "slug": "culture", "label": "Culture" }
+			]
+		},
+		{
+			"name": "host",
+			"label": "Hosts (linker)",
+			"labelSingular": "Host",
+			"hierarchical": false,
+			"collections": ["episodes"],
+			"terms": [
+				{ "slug": "maya-chen", "label": "Maya Chen" },
+				{ "slug": "rafael-ortiz", "label": "Rafael Ortiz" }
+			]
+		},
+		{
+			"name": "guest",
+			"label": "Guests (linker)",
+			"labelSingular": "Guest",
+			"hierarchical": false,
+			"collections": ["episodes"],
+			"terms": [
+				{ "slug": "priya-raman", "label": "Priya Raman" },
+				{ "slug": "jonas-keller", "label": "Jonas Keller" },
+				{ "slug": "amelia-brooks", "label": "Amelia Brooks" },
+				{ "slug": "tomas-figueroa", "label": "Tomás Figueroa" }
+			]
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{ "type": "custom", "label": "Home", "url": "/" },
+				{ "type": "custom", "label": "Episodes", "url": "/episodes" },
+				{ "type": "custom", "label": "Hosts", "url": "/hosts/maya-chen" },
+				{ "type": "custom", "label": "About", "url": "/pages/about" }
+			]
+		},
+		{
+			"name": "footer",
+			"label": "Footer",
+			"items": [
+				{ "type": "custom", "label": "Subscribe", "url": "/#subscribe" },
+				{ "type": "custom", "label": "Sponsor", "url": "/pages/sponsor" },
+				{ "type": "custom", "label": "Contact", "url": "/pages/contact" }
+			]
+		}
+	],
+	"widgetAreas": [
+		{
+			"name": "footer",
+			"label": "Footer",
+			"description": "Footer widgets below the main content",
+			"widgets": [
+				{
+					"type": "content",
+					"title": "Newsletter",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [{ "_type": "span", "text": "Get new episodes and show notes in your inbox every Thursday." }]
+						}
+					]
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "byline-signal-noise",
+			"slug": "signal-noise",
+			"displayName": "Signal & Noise"
+		}
+	],
+	"content": {
+		"hosts": [
+			{
+				"id": "host-maya",
+				"slug": "maya-chen",
+				"status": "published",
+				"data": {
+					"name": "Maya Chen",
+					"role": "Host",
+					"bio": "Former principal PM turned full-time podcaster. Maya has spent 15 years at the intersection of product, design and strategy — shipping at Figma, Stripe and a handful of startups you've never heard of. On the show she brings a product mind to every conversation.",
+					"photo": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=600&fit=crop",
+							"alt": "Maya Chen portrait",
+							"filename": "maya-chen.jpg"
+						}
+					},
+					"twitter_url": "https://twitter.com/mayachen",
+					"linkedin_url": "https://linkedin.com/in/mayachen",
+					"website_url": "https://mayachen.com"
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			},
+			{
+				"id": "host-rafael",
+				"slug": "rafael-ortiz",
+				"status": "published",
+				"data": {
+					"name": "Rafael Ortiz",
+					"role": "Co-host",
+					"bio": "Staff engineer, essayist, and chronic contrarian. Rafael writes about distributed systems, internet culture, and the hidden infrastructure behind software that touches billions of people. When he isn't at the mic, he's probably arguing about type systems on the internet.",
+					"photo": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=600&fit=crop",
+							"alt": "Rafael Ortiz portrait",
+							"filename": "rafael-ortiz.jpg"
+						}
+					},
+					"twitter_url": "https://twitter.com/rafaortiz",
+					"linkedin_url": "https://linkedin.com/in/rafaortiz",
+					"website_url": "https://rafaortiz.dev"
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			}
+		],
+		"guests": [
+			{
+				"id": "guest-priya",
+				"slug": "priya-raman",
+				"status": "published",
+				"data": {
+					"name": "Priya Raman",
+					"role": "Founder, Lumen AI",
+					"bio": "Building the first generative design system for enterprise. Previously led applied research at DeepMind.",
+					"photo": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=600&fit=crop",
+							"alt": "Priya Raman portrait",
+							"filename": "priya-raman.jpg"
+						}
+					},
+					"twitter_url": "https://twitter.com/priyaraman"
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			},
+			{
+				"id": "guest-jonas",
+				"slug": "jonas-keller",
+				"status": "published",
+				"data": {
+					"name": "Jonas Keller",
+					"role": "Designer, Author of 'Slow Web'",
+					"bio": "Jonas argues for a web that respects human attention. His book 'Slow Web' is a manifesto for quieter software.",
+					"photo": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+							"alt": "Jonas Keller portrait",
+							"filename": "jonas-keller.jpg"
+						}
+					},
+					"twitter_url": "https://twitter.com/jonaskeller"
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			},
+			{
+				"id": "guest-amelia",
+				"slug": "amelia-brooks",
+				"status": "published",
+				"data": {
+					"name": "Amelia Brooks",
+					"role": "Partner, Horizon Ventures",
+					"bio": "Early-stage investor with a thesis on dev tools and AI infrastructure. Before VC, she was a systems engineer at Cloudflare.",
+					"photo": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=600&fit=crop",
+							"alt": "Amelia Brooks portrait",
+							"filename": "amelia-brooks.jpg"
+						}
+					},
+					"twitter_url": "https://twitter.com/ameliabrooks"
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			},
+			{
+				"id": "guest-tomas",
+				"slug": "tomas-figueroa",
+				"status": "published",
+				"data": {
+					"name": "Tomás Figueroa",
+					"role": "Creative director, ex-IDEO",
+					"bio": "Tomás has designed physical products for Muji, software for Airbnb, and now runs a small studio in Mexico City.",
+					"photo": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=600&fit=crop",
+							"alt": "Tomás Figueroa portrait",
+							"filename": "tomas-figueroa.jpg"
+						}
+					},
+					"twitter_url": "https://twitter.com/tomasfigueroa"
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			}
+		],
+		"pages": [
+			{
+				"id": "page-about",
+				"slug": "about",
+				"status": "published",
+				"data": {
+					"title": "About the show",
+					"content": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Signal & Noise is a weekly conversation about the forces shaping technology, design and culture. Each episode, hosts Maya Chen and Rafael Ortiz sit down with builders, thinkers and critics to cut through the hype and find what actually matters." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "Why we made this" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The tech discourse is loud. Most of it is noise. We started this show to make space for the slower, weirder, more interesting conversations that don't fit in a tweet or a LinkedIn post." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "Who it's for" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Founders, engineers, designers, writers, and anyone who believes software should be made thoughtfully." }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			},
+			{
+				"id": "page-sponsor",
+				"slug": "sponsor",
+				"status": "published",
+				"data": {
+					"title": "Sponsor the show",
+					"content": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Signal & Noise reaches 40,000+ weekly listeners — founders, engineers, designers and operators building the next generation of tools." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "What we offer" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Host-read pre-rolls, mid-rolls, and dedicated episodes. Every ad is scripted in collaboration with you and read by Maya or Rafael — no swap-ins." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "Get in touch" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Email sponsors@signalnoise.fm with a paragraph about your product. We reply to every serious inquiry within a week." }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			},
+			{
+				"id": "page-contact",
+				"slug": "contact",
+				"status": "published",
+				"data": {
+					"title": "Contact",
+					"content": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Want to suggest a guest, send us feedback, or just say hi?" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Email hello@signalnoise.fm or find us on Twitter @signalnoisefm." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "Press" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "For press inquiries, please write to press@signalnoise.fm." }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }]
+			}
+		],
+		"episodes": [
+			{
+				"id": "ep-s2-06",
+				"slug": "the-end-of-the-feed",
+				"status": "published",
+				"data": {
+					"title": "The end of the feed",
+					"description": "A wide-ranging conversation with Priya Raman on what replaces the infinite scroll — and why the next decade of interfaces won't look like a timeline.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&h=1200&fit=crop",
+							"alt": "Neon abstract podcast cover",
+							"filename": "ep-s2-06.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "58:24",
+					"duration_seconds": 3504,
+					"episode_number": 24,
+					"published_at": "2026-03-27T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Priya joins Maya and Rafael to break down why she thinks the feed is a dead-end paradigm, and what a post-scroll interface actually looks like." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Cold open and introductions" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "04:12" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "How Lumen got started and the first prototype Priya built in a weekend" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "12:45" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Why the infinite feed is not a user preference but a business constraint" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "24:30" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Generative canvas: demoing a real product that replaces the timeline" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "38:02" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "What happens to discovery without ranked feeds?" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "49:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The business model problem and why this is hard to fund" }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "Resources mentioned" }] },
+						{ "_type": "block", "listItem": "bullet", "children": [{ "_type": "span", "text": "Lumen's research paper on post-feed interfaces" }] },
+						{ "_type": "block", "listItem": "bullet", "children": [{ "_type": "span", "text": "Priya's essay 'Against the timeline'" }] },
+						{ "_type": "block", "listItem": "bullet", "children": [{ "_type": "span", "text": "Apple Vision Pro's spatial UI as a partial solution" }] }
+					],
+					"transcript": [
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "MAYA CHEN" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Priya, thanks so much for being here. I want to start with a provocation from your last essay — you said the feed is over. What did you mean by that?" }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "PRIYA RAMAN" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Thanks for having me. I think the feed was a brilliant invention for a specific moment — when we had more content than attention and needed a ranking function to figure out what mattered. But that constraint is gone. Generative models can produce an interface tailored to you in real time. Why are we still scrolling a list someone else ordered?" }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "RAFAEL ORTIZ" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "But ranking is also how ad inventory gets priced. You can't just hand-wave that away…" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-2"],
+					"topic": ["ai", "design"],
+					"host": ["maya-chen", "rafael-ortiz"],
+					"guest": ["priya-raman"]
+				}
+			},
+			{
+				"id": "ep-s2-05",
+				"slug": "slow-web-manifesto",
+				"status": "published",
+				"data": {
+					"title": "The slow web manifesto",
+					"description": "Designer and author Jonas Keller on why we need software that respects attention — and what it means to ship a product in the age of notifications.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=1200&fit=crop",
+							"alt": "Moody analog device podcast cover",
+							"filename": "ep-s2-05.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "52:18",
+					"duration_seconds": 3138,
+					"episode_number": 23,
+					"published_at": "2026-03-20T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Jonas Keller joins the show to discuss his new book 'Slow Web' and make the case for calmer, more intentional software." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Intros and what 'slow' means in this context" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "07:35" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The three principles of slow software" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "19:20" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Case study: redesigning a banking app for calmness" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "32:45" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "How do you charge for software that doesn't maximize engagement?" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "44:50" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Rapid-fire: Jonas's favorite calm apps" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-2"],
+					"topic": ["design", "culture"],
+					"host": ["maya-chen", "rafael-ortiz"],
+					"guest": ["jonas-keller"]
+				}
+			},
+			{
+				"id": "ep-s2-04",
+				"slug": "the-infrastructure-of-everything",
+				"status": "published",
+				"data": {
+					"title": "The infrastructure of everything",
+					"description": "Amelia Brooks on the unglamorous middle layer of AI — why the companies building boring pipelines will outlast the ones building flashy chatbots.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=1200&fit=crop",
+							"alt": "Server infrastructure podcast cover",
+							"filename": "ep-s2-04.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "1:04:12",
+					"duration_seconds": 3852,
+					"episode_number": 22,
+					"published_at": "2026-03-13T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Venture investor Amelia Brooks makes the case that the interesting money in AI isn't at the application layer — it's in the plumbing." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Why 'boring' is the thesis" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "11:08" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Vector databases, inference caches, and the stack nobody talks about" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "26:40" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The Cloudflare bet and what it taught her about distributed systems" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "42:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "What she's funding in 2026" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "55:30" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The case against consumer AI startups" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-2"],
+					"topic": ["ai", "engineering", "startups"],
+					"host": ["maya-chen", "rafael-ortiz"],
+					"guest": ["amelia-brooks"]
+				}
+			},
+			{
+				"id": "ep-s2-03",
+				"slug": "design-without-figma",
+				"status": "published",
+				"data": {
+					"title": "Design without Figma",
+					"description": "Tomás Figueroa on running a studio in Mexico City, why he killed his Figma subscription, and what happens when you design in the browser from day one.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=1200&h=1200&fit=crop",
+							"alt": "Minimal design tools podcast cover",
+							"filename": "ep-s2-03.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "47:02",
+					"duration_seconds": 2822,
+					"episode_number": 21,
+					"published_at": "2026-03-06T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "A conversation with Tomás Figueroa about moving his studio away from design tools and into code — and what the handoff looks like when there is no handoff." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Tomás's path from Muji to Airbnb to running a small studio" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "09:22" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Why Figma became a bottleneck and not a tool" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "22:14" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The 'design in the browser' workflow in practice" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "35:40" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Pushback from the team and what didn't work" }] }
+					],
+					"transcript": [
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "RAFAEL ORTIZ" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Tomás, you made a pretty dramatic move last year — you cancelled your entire team's Figma subscription. Walk us through that decision." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "TOMÁS FIGUEROA" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "It wasn't dramatic in the moment — it was more like a slow realization. We'd spend two weeks in Figma making these perfect artboards, and then a week translating them to code, and the final thing always looked slightly wrong. The translation was lossy. So I asked: what if there was no translation?" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-2"],
+					"topic": ["design", "engineering"],
+					"host": ["maya-chen", "rafael-ortiz"],
+					"guest": ["tomas-figueroa"]
+				}
+			},
+			{
+				"id": "ep-s2-02",
+				"slug": "type-systems-and-beauty",
+				"status": "published",
+				"data": {
+					"title": "Type systems and beauty",
+					"description": "Rafael goes solo on a philosophical tour through type theory, the aesthetics of well-typed code, and why programming language design is secretly an art form.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200&h=1200&fit=crop",
+							"alt": "Code on a dark monitor",
+							"filename": "ep-s2-02.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "39:48",
+					"duration_seconds": 2388,
+					"episode_number": 20,
+					"published_at": "2026-02-27T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "A solo monologue from Rafael on why he thinks great type systems are a form of craft. Expect tangents." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "What type safety actually buys you (hint: not what you think)" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "08:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The elegance of sum types" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "17:30" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Why TypeScript's structural typing changed how he thinks about API design" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "28:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Rust, Elm, and the languages he recommends to new engineers" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-2"],
+					"topic": ["engineering"],
+					"host": ["rafael-ortiz"]
+				}
+			},
+			{
+				"id": "ep-s2-01",
+				"slug": "season-2-opener",
+				"status": "published",
+				"data": {
+					"title": "Season 2 opener: what we're watching in 2026",
+					"description": "Maya and Rafael kick off season two with a 40-minute preview of the themes, guests, and open questions they'll be chasing over the next twelve months.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1485579149621-3123dd979885?w=1200&h=1200&fit=crop",
+							"alt": "Studio microphone podcast cover",
+							"filename": "ep-s2-01.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "42:30",
+					"duration_seconds": 2550,
+					"episode_number": 19,
+					"published_at": "2026-02-20T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "A table-setter for season 2. No guest — just the two of us laying out where we think the interesting conversations are this year." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Welcome back and what we learned in season 1" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "08:40" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Three themes for 2026" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "19:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The guests we're most excited about" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "32:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "How the show has changed (and what isn't changing)" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-2"],
+					"topic": ["culture", "startups"],
+					"host": ["maya-chen", "rafael-ortiz"]
+				}
+			},
+			{
+				"id": "ep-s1-12",
+				"slug": "the-taste-problem",
+				"status": "published",
+				"data": {
+					"title": "The taste problem",
+					"description": "If AI can generate infinite variations, the bottleneck becomes taste. Maya and Rafael debate whether you can train for it — or whether it's the last thing models can't fake.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&h=1200&fit=crop",
+							"alt": "Abstract art podcast cover",
+							"filename": "ep-s1-12.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "51:40",
+					"duration_seconds": 3100,
+					"episode_number": 18,
+					"published_at": "2025-12-19T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Season 1 finale. A two-hander about what 'taste' means in a world where generation is free." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Defining 'taste' in a useful way" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "11:20" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The Rick Rubin hypothesis" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "24:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Can you train for taste? A look at design education" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "38:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Closing out season 1" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-1"],
+					"topic": ["ai", "design", "culture"],
+					"host": ["maya-chen", "rafael-ortiz"]
+				}
+			},
+			{
+				"id": "ep-s1-11",
+				"slug": "from-zero-to-forty-thousand",
+				"status": "published",
+				"data": {
+					"title": "From zero to forty thousand: how we built this show",
+					"description": "A behind-the-scenes episode on the first year of Signal & Noise — the gear, the workflow, the mistakes, and why podcasting is still the best medium for real conversations.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&h=1200&fit=crop",
+							"alt": "Podcast studio setup",
+							"filename": "ep-s1-11.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "56:15",
+					"duration_seconds": 3375,
+					"episode_number": 17,
+					"published_at": "2025-12-12T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "We turn the mic on ourselves. A candid breakdown of the first year running this show." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Why we started" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "12:30" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Our exact gear list (spoiler: simpler than you think)" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "25:45" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The first ten episodes: what we got wrong" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "40:10" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "How we reach guests and what pitches work" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "49:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The economics of a weekly show" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-1"],
+					"topic": ["culture", "startups"],
+					"host": ["maya-chen", "rafael-ortiz"]
+				}
+			},
+			{
+				"id": "ep-s1-10",
+				"slug": "the-last-mile-of-ai-products",
+				"status": "published",
+				"data": {
+					"title": "The last mile of AI products",
+					"description": "Priya Raman returns for a second appearance to talk about the part of AI product work nobody writes about: the evaluation loops, the silent failures, and the handoff between model and interface.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=1200&fit=crop",
+							"alt": "Abstract AI visualization",
+							"filename": "ep-s1-10.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "1:02:45",
+					"duration_seconds": 3765,
+					"episode_number": 16,
+					"published_at": "2025-12-05T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Priya is back. This time we go deep on what it actually takes to ship an AI product that works — beyond the demo." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "What Priya learned shipping Lumen v2" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "14:22" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Evals, evals, evals" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "29:50" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The silent failure problem: when the model is wrong and nobody notices" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "46:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The interface layer: where research ends and product begins" }] }
+					],
+					"transcript": [
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "MAYA CHEN" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Priya, welcome back. Last time we had you on, Lumen was still in private beta. A lot has changed." }] },
+						{ "_type": "block", "style": "h3", "children": [{ "_type": "span", "text": "PRIYA RAMAN" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "A lot has changed. We shipped v2, we almost didn't ship v2, we rewrote the eval pipeline three times. I have more scar tissue now." }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-1"],
+					"topic": ["ai", "engineering"],
+					"host": ["maya-chen", "rafael-ortiz"],
+					"guest": ["priya-raman"]
+				}
+			},
+			{
+				"id": "ep-s1-09",
+				"slug": "a-field-guide-to-dev-tools",
+				"status": "published",
+				"data": {
+					"title": "A field guide to dev tools in 2025",
+					"description": "Rafael walks through the dev tools landscape and picks the ones he thinks will still matter in three years. Opinionated takes on editors, runtimes, and the 'AI pair programmer' category.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=1200&fit=crop",
+							"alt": "Dev tools code on screen",
+							"filename": "ep-s1-09.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "48:25",
+					"duration_seconds": 2905,
+					"episode_number": 15,
+					"published_at": "2025-11-28T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Rafael's annual state of dev tools. Twelve tools, ranked and roasted." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Ground rules for this episode" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "06:15" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Editors: Cursor, Zed, the return of Neovim" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "19:30" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Runtimes: Bun vs Node vs Deno in 2025" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "32:10" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Databases: the SQLite renaissance" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "42:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "What Rafael's actually using day-to-day" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-1"],
+					"topic": ["engineering"],
+					"host": ["rafael-ortiz"]
+				}
+			},
+			{
+				"id": "ep-s1-08",
+				"slug": "the-return-of-craft",
+				"status": "published",
+				"data": {
+					"title": "The return of craft",
+					"description": "Why handmade everything is having a moment, from small-batch software to zines. A cultural conversation with Maya and Rafael.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=1200&h=1200&fit=crop",
+							"alt": "Craft tools on a workbench",
+							"filename": "ep-s1-08.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "44:12",
+					"duration_seconds": 2652,
+					"episode_number": 14,
+					"published_at": "2025-11-21T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "A meandering conversation about why the 'maker' impulse keeps reappearing in software culture." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The small-batch software trend" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "11:50" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Why indie apps keep beating enterprise incumbents" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "24:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The zine revival and what it tells us about attention" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "35:30" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Can you scale a craft practice?" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-1"],
+					"topic": ["culture", "design"],
+					"host": ["maya-chen", "rafael-ortiz"]
+				}
+			},
+			{
+				"id": "ep-s1-07",
+				"slug": "rewriting-the-org-chart",
+				"status": "published",
+				"data": {
+					"title": "Rewriting the org chart",
+					"description": "Amelia Brooks on why the next generation of startups will have ten people doing the work of a hundred — and what it means for how you hire, manage, and compensate.",
+					"cover_image": {
+						"$media": {
+							"url": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=1200&fit=crop",
+							"alt": "Team collaboration podcast cover",
+							"filename": "ep-s1-07.jpg"
+						}
+					},
+					"audio_url": "https://archive.org/download/testmp3testfile/mpthreetest.mp3",
+					"duration": "53:08",
+					"duration_seconds": 3188,
+					"episode_number": 13,
+					"published_at": "2025-11-14T09:00:00.000Z",
+					"spotify_url": "https://open.spotify.com/episode/xxx",
+					"apple_url": "https://podcasts.apple.com/episode/xxx",
+					"youtube_url": "https://youtube.com/watch?v=xxx",
+					"show_notes": [
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Amelia's first appearance on the show. A deep dive on the new shape of tech companies in the AI era." }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "00:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "The ten-person startup thesis" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "15:20" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Who you hire when everyone has to be a generalist" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "28:45" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "Equity splits in tiny teams" }] },
+						{ "_type": "block", "style": "h2", "children": [{ "_type": "span", "text": "42:00" }] },
+						{ "_type": "block", "style": "normal", "children": [{ "_type": "span", "text": "What Amelia looks for in a founder today vs five years ago" }] }
+					]
+				},
+				"bylines": [{ "byline": "byline-signal-noise" }],
+				"taxonomies": {
+					"season": ["season-1"],
+					"topic": ["startups", "culture"],
+					"host": ["maya-chen", "rafael-ortiz"],
+					"guest": ["amelia-brooks"]
+				}
+			}
+		]
+	}
+}

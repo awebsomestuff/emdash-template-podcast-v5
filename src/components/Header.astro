@@ -1,0 +1,19 @@
+---
+/**
+ * Header — site header is currently inlined in Base.astro for simplicity.
+ * This file exists as an extraction point if you want to customize.
+ */
+import { getMenu, getSiteSettings } from "emdash";
+
+const menu = await getMenu("primary");
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+---
+<header class="site-header">
+	<div class="site-header-inner">
+		<a href="/" class="site-logo">{siteTitle}</a>
+		<nav class="site-nav">
+			{menu?.items.map((item) => <a href={item.url}>{item.label}</a>)}
+		</nav>
+	</div>
+</header>

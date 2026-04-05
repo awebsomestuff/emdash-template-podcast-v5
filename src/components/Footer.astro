@@ -1,0 +1,24 @@
+---
+/**
+ * Footer — site footer is currently inlined in Base.astro for simplicity.
+ * This file exists as an extraction point if you want to customize.
+ */
+import { getMenu, getSiteSettings } from "emdash";
+
+const footerMenu = await getMenu("footer");
+const settings = await getSiteSettings();
+const siteTitle = settings?.title || "Signal & Noise";
+const tagline = settings?.tagline || "";
+---
+<footer class="site-footer">
+	<div class="site-footer-inner">
+		<div class="site-footer-brand">
+			<strong>{siteTitle}</strong>
+			<p>{tagline}</p>
+		</div>
+		<div>
+			<h4>Navigate</h4>
+			{footerMenu?.items.map((item) => <a href={item.url}>{item.label}</a>)}
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,21 @@
+---
+import { Image } from "emdash/ui";
+
+interface Props {
+	host: any;
+}
+
+const { host } = Astro.props;
+const data = host.data ?? host;
+const slug = host.id ?? data.slug;
+---
+<a href={`/hosts/${slug}`} class="host-card">
+	{data.photo && (
+		<div class="host-card-photo">
+			<Image image={data.photo} />
+		</div>
+	)}
+	{data.role && <span class="host-card-role">{data.role}</span>}
+	<h3 class="host-card-name">{data.name}</h3>
+	{data.bio && <p class="host-card-bio">{data.bio}</p>}
+</a>

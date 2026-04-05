@@ -1,0 +1,31 @@
+---
+interface Props {
+	bars?: number;
+	size?: "sm" | "md";
+	seed?: number;
+}
+
+const { bars = 60, size = "md", seed = 42 } = Astro.props;
+
+// Deterministic pseudo-random heights for SSR stability.
+function heights(count: number, s: number): number[] {
+	const out: number[] = [];
+	let x = s;
+	for (let i = 0; i < count; i++) {
+		x = (x * 9301 + 49297) % 233280;
+		const r = x / 233280;
+		// Shape: envelope so middle bars taller, edges shorter.
+		const env = Math.sin((i / count) * Math.PI);
+		const h = 18 + r * 72 * (0.5 + env * 0.7);
+		out.push(Math.round(h));
+	}
+	return out;
+}
+
+const hs = heights(bars, seed);
+---
+<div class={`waveform${size === "sm" ? " sm" : ""}`} aria-hidden="true">
+	{hs.map((h) => (
+		<span style={`height:${h}%`}></span>
+	))}
+</div>

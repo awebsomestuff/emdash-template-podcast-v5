@@ -1,0 +1,21 @@
+---
+import Waveform from "./Waveform.astro";
+
+interface Props {
+	src: string;
+	duration?: string | null;
+	seed?: number;
+}
+
+const { src, duration, seed = 7 } = Astro.props;
+---
+<div class="audio-player">
+	<div class="audio-player-top">
+		<span class="audio-player-play-label">▶ Listen</span>
+		{duration && <span class="audio-player-play-label" style="color: var(--text-muted)">{duration}</span>}
+	</div>
+	<Waveform bars={48} size="sm" seed={seed} />
+	<audio controls preload="none" src={src}>
+		Your browser does not support the audio element.
+	</audio>
+</div>

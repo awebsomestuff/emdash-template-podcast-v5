@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getTerm, getEntriesByTerm } from "emdash";
+import EpisodeCard from "../../components/EpisodeCard.astro";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/episodes");
+
+const term = await getTerm("season", slug);
+if (!term) return Astro.redirect("/episodes");
+
+const episodes = await getEntriesByTerm("episodes", "season", slug);
+---
+<Base title={term.label} description={`All episodes from ${term.label}`}>
+	<section class="section">
+		<div class="container">
+			<div class="section-head">
+				<div>
+					<div class="section-sub">Season archive</div>
+					<h1 class="section-title">{term.label}</h1>
+				</div>
+				<a href="/episodes" class="btn btn-ghost">← All episodes</a>
+			</div>
+			{episodes.length > 0 ? (
+				<div class="episode-grid">
+					{episodes.map((ep: any) => <EpisodeCard episode={ep} />)}
+				</div>
+			) : (
+				<div class="empty">No episodes in this season yet.</div>
+			)}
+		</div>
+	</section>
+</Base>
